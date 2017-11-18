@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	require_once('dbconfig/config.php');
+	//phpinfo();
+?>
 <!doctype html>
 <!--
   Material Design Lite
@@ -75,7 +80,7 @@
         <header class="demo-drawer-header">
           <img src="images/user.jpg" class="demo-avatar">
           <div class="demo-avatar-dropdown">
-            <span>hello@example.com</span>
+            <span><?php echo $_SESSION['username']; ?></span>
             <div class="mdl-layout-spacer"></div>
 
           </div>
@@ -96,23 +101,46 @@
             <div class="demo-separator mdl-cell--1-col"></div>
             <div class="demo-card-wide mdl-card mdl-shadow--2dp">
               <div class="mdl-card__supporting-text">
-                Question: To which supercluster does solar system belong to:
+              <?php
+              ob_start();
+              if(!isset($_SESSION['acc']))
+              {
+                $_SESSION['acc']='1';
+                $_SESSION['score']='0';
+              }
+              else if(strcmp($_SESSION['acc'],'6')==0)
+              {
+              unset($_SESSION['acc']); ?>
+              <script type="text/javascript">
+              window.location.href = 'loggedIn.php';
+              </script>
+                <?php
+              }
+              else {
+
+              }
+               $t=(int) $_SESSION['acc'];
+                $query = "select * from Quiz1 where id = $t";
+                $t+=1;
+                $_SESSION['acc']=(string) $t;
+                $query_run = mysqli_query($con,$query);
+
+                $row = mysqli_fetch_array($query_run,MYSQLI_ASSOC);
+                echo (string)($t-1).". ".$row['question'] ?>
               </div>
+              <form action="quizin.php" method="POST">
               <div>
-                <form>
               <ul class="quizOptions">
-                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans">  Laniakea<br>
-                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans">  Virgo<br>
-                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans">  Leo<br>
-                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans">  Spasky<br>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans" value="o1">  <?php echo $row['o1']?><br>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans" value="o2">  <?php echo $row['o2']?><br>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans" value="o3">  <?php echo $row['o3']?><br>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="ans" value="o4">  <?php echo $row['o4']?><br>
               </ul>
-            </form>
+
             </div>
               <div class="mdl-card__actions mdl-card--border">
                 <a><!-- Raised button with ripple -->
-                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
-                    Submit
-                  </button>
+                  <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" />
                 </a>
                 <!-- Flat button with ripple -->
                 <a>
@@ -124,6 +152,7 @@
 
 
           </div>
+        </form>
         </div>
       </main>
     </div>
@@ -177,3 +206,4 @@
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </body>
 </html>
+<?php ob_end_flush(); ?>

@@ -194,11 +194,11 @@ _:-ms-input-placeholder, :root .demo-graph {
   border-color: rgba(255, 255, 255, 0.89);
 }
 .demo-options ul {
-  margin: 5px;
+  margin: 0;
   list-style-type: none;
 }
 .demo-options li {
-  margin: 4px 5;
+  margin: 4px 0;
 }
 .demo-options .material-icons {
   color: rgba(255, 255, 255, 0.89);
