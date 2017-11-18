@@ -78,15 +78,15 @@
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
-          <img src="images/user.jpg" class="demo-avatar">
+          <img src="images/useravatar.ico" class="demo-avatar">
           <div class="demo-avatar-dropdown">
-            <span><?php echo $_SESSION['username']; ?></span>
+            <span>&nbsp;&nbsp;<?php echo $_SESSION['username']; ?></span>
             <div class="mdl-layout-spacer"></div>
 
           </div>
         </header>
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Feedback</a>
+          <a class="mdl-navigation__link" href="email.php"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>Feedback</a>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">delete</i>Sign Out</a>
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Help</span></a>
@@ -110,14 +110,35 @@
               }
               else if(strcmp($_SESSION['acc'],'6')==0)
               {
+                $s=$_POST['ans'];
+                $q=((int) $_SESSION['acc']) - 1;
+                 $query = "select * from Quiz1 where id = $q";
+                 $_SESSION['acc']=(string) $q;
+                 $query_run = mysqli_query($con,$query);
+                 $row = mysqli_fetch_array($query_run,MYSQLI_ASSOC);
+                 if(strcmp($row['answerOpt'], $row[$s])==0)
+                 {
+                   $_SESSION['score']=(string)((int)$_SESSION['score'] + 1);
+                 }
               unset($_SESSION['acc']); ?>
               <script type="text/javascript">
-              window.location.href = 'loggedIn.php';
+              window.location.href = 'thankyou.php';
               </script>
                 <?php
               }
               else {
-
+                if(isset($_POST['ans']))
+                {
+                  $s=$_POST['ans'];
+                  $y=(((int) $_SESSION['acc'])) - 1;
+                   $query = "select * from Quiz1 where id = $y";
+                   $query_run = mysqli_query($con,$query);
+                   $row = mysqli_fetch_array($query_run,MYSQLI_ASSOC);
+                   if(strcmp($row['answerOpt'], $row[$s])==0)
+                   {
+                     $_SESSION['score']=(string)((int)$_SESSION['score'] + 1);
+                   }
+                 }
               }
                $t=(int) $_SESSION['acc'];
                 $query = "select * from Quiz1 where id = $t";

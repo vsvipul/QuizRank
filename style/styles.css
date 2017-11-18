@@ -219,5 +219,6 @@ _:-ms-input-placeholder, :root .demo-graph {
   min-height: 100vh; /* These two lines are counted as one :-)       */
 
   display: flex;
-  align-items: center;
+  margin-top: -60px;
+  margin-bottom: 50px;
 }

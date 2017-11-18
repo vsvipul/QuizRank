@@ -15,7 +15,7 @@
 <title>Login Page</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="background-color:#bdc3c7">
+<body style="background-color:#bdc3c7; font-family: arial;">
 	<div id="main-wrapper">
 	<center><h2>Login Form</h2></center>
 			<div class="imgcontainer">
@@ -53,7 +53,7 @@
 					$_SESSION['password'] = $password;
 
 						header( "Location: loggedIn.php");
-						exit();	
+						exit();
 					}
 					else
 					{
